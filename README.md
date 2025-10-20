@@ -1,4 +1,4 @@
-# NCA Toolkit - Zeabur 一键部署模板
+# No-Code Architects Toolkit - Zeabur 一键部署模板
 
 [![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/00M7JS?referralCode=xiangyugongzuoliu)
 
@@ -106,21 +106,8 @@ curl -X POST https://your-domain.zeabur.app/v1/video/caption \
 - 代码示例
 - 技术栈说明
 
-## 🔗 相关链接
-
-- **项目主页**: https://github.com/xiangyugongzuoliu/no-code-architects-toolkit
-- **API 文档**: https://github.com/xiangyugongzuoliu/no-code-architects-toolkit/tree/main/docs
-- **Docker 镜像**: https://hub.docker.com/r/xiangyugongzuoliu/nca-toolkit
-- **问题反馈**: https://github.com/xiangyugongzuoliu/no-code-architects-toolkit/issues
-
-## 📄 许可证
-
-本项目基于 [GPL-2.0 许可证](https://github.com/xiangyugongzuoliu/no-code-architects-toolkit/blob/main/LICENSE) 开源。
+---
 
 Fork 自 [stephengpope/no-code-architects-toolkit](https://github.com/stephengpope/no-code-architects-toolkit)
 
----
-
 **维护者**: [翔宇工作流](https://xiangyugongzuoliu.com/)
-
-如有问题，欢迎通过 [GitHub Issues](https://github.com/xiangyugongzuoliu/no-code-architects-toolkit/issues) 反馈。
