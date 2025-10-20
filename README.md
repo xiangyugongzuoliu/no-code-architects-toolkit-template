@@ -1,6 +1,6 @@
 # NCA Toolkit - Zeabur 一键部署模板
 
-[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/TEMPLATE_CODE?referralCode=xiangyugongzuoliu)
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/00M7JS?referralCode=xiangyugongzuoliu)
 
 > 强大的媒体处理 API 工具包，提供 50+ 个 API 端点，支持视频字幕生成、音视频转录、FFmpeg 处理等功能。
 
