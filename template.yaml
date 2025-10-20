@@ -1,0 +1,215 @@
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: nca-toolkit
+
+spec:
+  description: |
+    No-Code Architects Toolkit - 强大的媒体处理 API 工具包
+
+    ✨ 核心功能：
+    • 🎬 自动视频字幕生成（支持中文）
+    • 🎤 AI 音视频转录（Whisper）
+    • 🎞️ FFmpeg 音视频处理
+    • ☁️ Cloudflare R2 / S3 / GCP Storage 云存储
+    • 📦 二进制文件直接上传
+    • 🌏 完整的中文字体支持（简体/繁体）
+    • 🚀 50+ API 端点
+
+    📖 部署后访问根路径 / 查看完整介绍和使用指南
+
+  icon: https://raw.githubusercontent.com/xiangyugongzuoliu/no-code-architects-toolkit/main/assets/icon.svg
+  coverImage: https://raw.githubusercontent.com/xiangyugongzuoliu/no-code-architects-toolkit/main/assets/cover.svg
+  tags:
+    - video
+    - subtitle
+    - ffmpeg
+    - media
+    - ai
+    - whisper
+    - transcription
+  readme: |
+    # NCA Toolkit - 强大的媒体处理 API 工具包
+
+    一键部署到 Zeabur，开始使用 50+ 个媒体处理 API 端点。
+
+    ## 核心功能
+
+    - 🎬 自动视频字幕生成（支持中文）
+    - 🎤 AI 音视频转录（Whisper）
+    - 🎞️ FFmpeg 音视频处理
+    - ☁️ 云存储集成（R2/S3/GCP）
+    - 📦 二进制文件上传
+    - 🌏 中文字体支持
+
+    ## 快速开始
+
+    1. 点击上方"Deploy"按钮
+    2. 配置必需的环境变量（API_KEY 和云存储配置）
+    3. 等待部署完成
+    4. 访问根路径查看完整文档
+
+    ## 详细文档
+
+    访问项目主页：https://github.com/xiangyugongzuoliu/no-code-architects-toolkit
+
+  variables:
+    # ==================== 必需配置 ====================
+    - key: API_KEY
+      type: STRING
+      name: 🔑 API 密钥
+      description: API 访问密钥（必填），用于保护所有 API 端点
+      expose: true
+
+    # ==================== 云存储配置（三选一）====================
+
+    # Cloudflare R2 / S3 兼容存储（推荐）
+    - key: S3_ENDPOINT_URL
+      type: STRING
+      name: 🌩️ R2/S3 端点 URL
+      description: |
+        Cloudflare R2 或 S3 兼容存储端点
+        R2 示例：https://abc123.r2.cloudflarestorage.com
+      expose: true
+
+    - key: S3_ACCESS_KEY
+      type: STRING
+      name: 🔐 S3/R2 Access Key
+      description: S3/R2 访问密钥 ID
+      expose: true
+
+    - key: S3_SECRET_KEY
+      type: STRING
+      name: 🔒 S3/R2 Secret Key
+      description: S3/R2 密钥
+      expose: true
+
+    - key: S3_BUCKET_NAME
+      type: STRING
+      name: 🪣 S3/R2 Bucket 名称
+      description: 存储桶名称（如：nca-storage）
+      expose: true
+
+    - key: S3_REGION
+      type: STRING
+      name: 🌍 S3/R2 区域
+      description: |
+        R2 填写：auto
+        S3 填写：us-east-1 等
+      expose: true
+
+    - key: R2_PUBLIC_DOMAIN
+      type: STRING
+      name: 🔗 R2 自定义公开域名
+      description: |
+        R2 自定义域名（可选）
+        示例：https://files.yourdomain.com
+      expose: true
+
+    # Google Cloud Storage（备选）
+    - key: GCP_BUCKET_NAME
+      type: STRING
+      name: ☁️ GCP 存储桶名称
+      description: Google Cloud Storage 存储桶名称（可选）
+      expose: true
+
+    - key: GCP_SA_CREDENTIALS
+      type: STRING
+      name: 🔐 GCP 服务账号凭证
+      description: Google Cloud 服务账号 JSON 凭证（完整 JSON 字符串）
+      expose: true
+
+    # ==================== 性能调优（可选）====================
+    - key: GUNICORN_WORKERS
+      type: STRING
+      name: 👷 Worker 数量
+      description: Gunicorn worker 进程数（推荐：2-4）
+      expose: true
+
+    - key: GUNICORN_TIMEOUT
+      type: STRING
+      name: ⏱️ Worker 超时时间
+      description: Worker 请求超时时间（秒，推荐：300-600）
+      expose: true
+
+    - key: MAX_QUEUE_LENGTH
+      type: STRING
+      name: 🔄 队列最大长度
+      description: 任务队列最大长度（0=无限制）
+      expose: true
+
+  services:
+    - name: nca-toolkit
+      icon: https://raw.githubusercontent.com/xiangyugongzuoliu/no-code-architects-toolkit/main/assets/icon.svg
+      template: PREBUILT
+
+      spec:
+        source:
+          image: xiangyugongzuoliu/nca-toolkit:latest
+
+        ports:
+          - id: web
+            port: 8080
+            type: HTTP
+
+        env:
+          # 必需配置
+          API_KEY:
+            default: ${API_KEY}
+
+          # R2/S3 存储配置
+          S3_ENDPOINT_URL:
+            default: ${S3_ENDPOINT_URL}
+          S3_ACCESS_KEY:
+            default: ${S3_ACCESS_KEY}
+          S3_SECRET_KEY:
+            default: ${S3_SECRET_KEY}
+          S3_BUCKET_NAME:
+            default: ${S3_BUCKET_NAME}
+          S3_REGION:
+            default: ${S3_REGION:-auto}
+          R2_PUBLIC_DOMAIN:
+            default: ${R2_PUBLIC_DOMAIN}
+
+          # GCP 存储配置
+          GCP_BUCKET_NAME:
+            default: ${GCP_BUCKET_NAME}
+          GCP_SA_CREDENTIALS:
+            default: ${GCP_SA_CREDENTIALS}
+
+          # 性能调优
+          GUNICORN_WORKERS:
+            default: ${GUNICORN_WORKERS:-4}
+          GUNICORN_TIMEOUT:
+            default: ${GUNICORN_TIMEOUT:-300}
+          MAX_QUEUE_LENGTH:
+            default: ${MAX_QUEUE_LENGTH:-0}
+
+          # 系统配置（固定值）
+          PORT:
+            default: "8080"
+          WHISPER_CACHE_DIR:
+            default: "/app/whisper_cache"
+          LOCAL_STORAGE_PATH:
+            default: "/tmp"
+          PYTHONUNBUFFERED:
+            default: "1"
+
+        # 资源配置
+        resources:
+          limits:
+            memory: 4Gi
+            cpu: "2"
+          requests:
+            memory: 2Gi
+            cpu: "1"
+
+        # 健康检查
+        healthCheck:
+          httpGet:
+            path: /v1/toolkit/test
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
